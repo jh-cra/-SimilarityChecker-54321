@@ -4,32 +4,44 @@ using namespace std;
 
 class SimilerChecker {
 public:
-	int checkLengh(const string& stringA, const string& stringB) {
-		int result = 0;
-		int sizeA = stringA.size();
-		int sizeB = stringB.size();
-		int min = 0;
+	int checkDiffLength(const string& stringA, const string& stringB) {
+		int lengthA = stringA.length();
+		int lengthB = stringB.length();
+		int shorter = 0;
 		int gap = 0;
 
-		if (sizeA == sizeB) {
-			return 60;
-		}
+		if (lengthA == lengthB) return DIFF_LENGTH_MAX_SCORE;
+		if (lengthA >= lengthB * 2) return DIFF_LENGTH_MIN_SCORE;
+		if (lengthB >= lengthA * 2) return DIFF_LENGTH_MIN_SCORE;
 
-		if (sizeA > sizeB) {
-			if (sizeA >= sizeB*2) return 0;
+		gap = getGap(lengthA, lengthB);
+		shorter = getShorter(lengthA, lengthB);
 
-			min = sizeB;
-			gap = sizeA - sizeB;
-		}
-		else {
-			if (sizeB >= sizeA*2) return 0;
-
-			min = sizeA;
-			gap = sizeB - sizeA;
-		}
-
-		result = (100 - 100 * gap / min) * 60 / 100;
-
-		return result;
+		return getDiffLengthScore(gap, shorter);
 	}
+
+	int getGap(int lengthA, int lengthB)
+	{
+		if (lengthA > lengthB) {
+			return lengthA - lengthB;
+		}
+		return lengthB - lengthA;
+	}
+
+	int getShorter(int lengthA, int lengthB)
+	{
+		if (lengthA > lengthB) {
+			return lengthB;
+		}
+		return lengthA;
+	}
+
+	int getDiffLengthScore(int gap, int shorter)
+	{
+		return (100 - 100 * gap / shorter) * 60 / 100;
+	}
+
+private:
+	const int DIFF_LENGTH_MAX_SCORE = 60;
+	const int DIFF_LENGTH_MIN_SCORE = 0;
 };
