@@ -5,40 +5,34 @@ using namespace std;
 class SimilerChecker {
 public:
 	int checkDiffLength(const string& stringA, const string& stringB) {
-		int lengthA = stringA.length();
-		int lengthB = stringB.length();
-		int shorter = 0;
-		int gap = 0;
+		int longerLength = getLongerLength(stringA, stringB);
+		int shorterLength = getShorterLength(stringA, stringB);
 
-		if (lengthA == lengthB) return DIFF_LENGTH_MAX_SCORE;
-		if (lengthA >= lengthB * 2) return DIFF_LENGTH_MIN_SCORE;
-		if (lengthB >= lengthA * 2) return DIFF_LENGTH_MIN_SCORE;
+		if (longerLength == shorterLength) return DIFF_LENGTH_MAX_SCORE;
+		if (longerLength >= shorterLength * 2) return DIFF_LENGTH_MIN_SCORE;
 
-		gap = getGap(lengthA, lengthB);
-		shorter = getShorter(lengthA, lengthB);
-
-		return getDiffLengthScore(gap, shorter);
+		return getDiffLengthScore(longerLength- shorterLength, shorterLength);
 	}
 
-	int getGap(int lengthA, int lengthB)
+	int getLongerLength(const string& stringA, const string& stringB)
 	{
-		if (lengthA > lengthB) {
-			return lengthA - lengthB;
+		if (stringA.length() > stringB.length()) {
+			return stringA.length();
 		}
-		return lengthB - lengthA;
+		return stringB.length();
 	}
 
-	int getShorter(int lengthA, int lengthB)
+	int getShorterLength(const string& stringA, const string& stringB)
 	{
-		if (lengthA > lengthB) {
-			return lengthB;
+		if (stringA.length() > stringB.length()) {
+			return stringB.length();
 		}
-		return lengthA;
+		return stringA.length();
 	}
 
 	int getDiffLengthScore(int gap, int shorter)
 	{
-		return (100 - 100 * gap / shorter) * 60 / 100;
+		return (60 - 60 * gap / shorter);
 	}
 
 private:
