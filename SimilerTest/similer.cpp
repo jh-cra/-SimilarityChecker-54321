@@ -11,7 +11,7 @@ public:
 		if (longerLength == shorterLength) return DIFF_LENGTH_MAX_SCORE;
 		if (longerLength >= shorterLength * 2) return DIFF_LENGTH_MIN_SCORE;
 
-		return getDiffLengthScore(longerLength- shorterLength, shorterLength);
+		return getDiffLengthScore(longerLength - shorterLength, shorterLength);
 	}
 
 	int getLongerLength(const string& stringA, const string& stringB)
